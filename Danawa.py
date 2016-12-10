@@ -13,7 +13,6 @@
 from Base import Base
 from Page import Page
 from selenium import webdriver
-import time
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -44,9 +43,7 @@ class Danawa(Base):
         soup = BeautifulSoup(self.browser.page_source, 'lxml')
         cate_list = []
         for a in soup.select(self.category_sub):
-            temp = {"url": '', "title": ''}
-            temp['url'] = a.get('href')
-            temp['title'] = a.text.replace('\t', '')
+            temp = {"url": '', "title": '', 'url': a.get('href'), 'title': a.text.replace('\t', '')}
             cate_list.append(temp)
 
         Page(cate_list, self.browser).page_crawler()
