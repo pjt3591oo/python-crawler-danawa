@@ -12,14 +12,10 @@
 
 from Base import Base
 from Page import Page
-from selenium import webdriver
 from bs4 import BeautifulSoup
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class Danawa(Base):
-
-    browser = webdriver.Chrome('chromedriver.exe')
 
     def __init__(self):
         super().__init__()
@@ -31,12 +27,12 @@ class Danawa(Base):
 
     def crawler(self):
         self.browser.get(self.url)
-        self.__click(self.category_view)
+        Base.click(self, self.category_view)
         self.category_nav_hover()
 
     def category_nav_hover(self):
         soup = BeautifulSoup(self.browser.page_source, 'lxml')
-        self.__hover(self.category_nav)
+        Base.hover(self, self.category_nav)
         self.collect_category()
 
     def collect_category(self):
@@ -48,9 +44,3 @@ class Danawa(Base):
 
         Page(cate_list, self.browser).page_crawler()
 
-    def __click(self, tag):
-        self.browser.find_element_by_css_selector(tag).click()
-
-    def __hover(self, tag):
-        hover = ActionChains(self.browser).move_to_element(self.browser.find_element_by_css_selector(tag))
-        hover.perform()
